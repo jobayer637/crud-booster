@@ -7,7 +7,7 @@
 
 <div class="card my-5">
     <div class="card-body col-md-5">
-        <form action="{{ url($path) }}" method="post">
+        <form action="{{ url($path) }}" method="post" enctype="multipart/form-data">
             @csrf
             <select name="category_id" class="form-control my-3 col-md-5">
                 @foreach ($category as $item)
@@ -23,7 +23,7 @@
 
             <input type="file" name="image"><br>
 
-            <button class="btn btn-primary rounded-0">submit</button>
+            <button type="submit" class="btn btn-primary rounded-0">submit</button>
 
         </form>
 

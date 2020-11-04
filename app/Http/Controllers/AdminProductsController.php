@@ -29,7 +29,11 @@ use Session;
 			$this->button_filter = true;
 			$this->button_import = false;
 			$this->button_export = false;
-			$this->table = "products";
+            $this->table = "products";
+
+
+    // Using document column
+    $this->addFile("Document","document");
 			# END CONFIGURATION DO NOT REMOVE THIS LINE
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
@@ -346,14 +350,20 @@ use Session;
         }
 
         public function postProducts(){
-            $value = request()->all();
-            $product = new Product;
-            $product->user_id = CRUDBooster::myId();
-            $product->category_id = $value['category_id'];
-            $product->name = $value['name'];
-            $product->description = $value['description'];
-            $product->price = $value['price'];
-            $product->save();
+            $value = Request::file();
+
+            $image =  $value['image'];
+            $fu = CRUDBooster::uploadFile($image);
+            dd($value, $fu);
+
+
+            $data = [];
+            $data['user_id'] = CRUDBooster::myId();
+            $data['category_id'] = $value['category_id'];
+            $data['name'] = $value['name'];
+            $data['description'] = $value['description'];
+            $data['price'] = $value['price'];
+            CRUDBooster::insert('products', $data);
 
             CRUDBooster::redirect(CRUDBooster::mainpath(), 'new product successfully added', 'success');
         }
